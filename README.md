@@ -22,6 +22,21 @@ out successive `ADDR` bits.
 refclk -> div_8 -> clk_ctrl -> CS_LD_ctrl -> addr_out -> ADDR
 ```
 
+## Top-level I/O (FPGA_TOP)
+
+2 inputs, 6 outputs — all 1-bit signals.
+
+| Pin            | Dir    | Function                                                        |
+|----------------|--------|-------------------------------------------------------------------|
+| `CLR`          | input  | Asynchronous reset; clears all counters and outputs.             |
+| `refclk`       | input  | Reference clock fed into the `div_8` clock divider.               |
+| `clk_250k`     | output | Divided clock (`refclk` / 8) produced by `div_8`.                 |
+| `STB_CLK_250K` | output | Gated/stabilized version of `clk_250k`, used to clock the control logic. |
+| `START`        | output | Asserted once the divided clock has stabilized after reset.       |
+| `CS`           | output | Chip-select strobe for the load handshake.                        |
+| `LOAD`         | output | Load pulse; each pulse advances the address counter and shifts out one `ADDR` bit. |
+| `ADDR`         | output | Serial address/data output, shifted out one bit per `LOAD` pulse. |
+
 ## Parameters (FPGA_TOP)
 
 | Parameter    | Default | Description                                   |
